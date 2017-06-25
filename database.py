@@ -1,16 +1,22 @@
 import sqlite3
-import csv
-from pprint import pprint
 
-db = sqlite3.connect('nodes_tags.csv')
+db = sqlite3.connect('philadelphia.db')
 c = db.cursor()
+query = '''SELECT nodes_tags.value, COUNT(*) as num
+FROM nodes_tags
+JOIN (SELECT DISTINCT(id) FROM nodes_tags WHERE key = 'shop') sub
+ON sub.id = nodes_tags.id
+WHERE nodes_tags.key = 'name'
+GROUP BY nodes_tags.value
+ORDER BY num desc
+LIMIT 5;
+           '''
+c.execute(query)
+rows = c.fetchall()
 
-# Recreate table
-c.execute('''DROP TABLE IF EXISTS nodes_tags''')
-db.commit()
+# First, what data structure did we get?
+print "Row data:"
+for row in rows:
+  print row[0]
 
-c.execute('''
-    CREATE TABLE nodes_tags(id INTEGER, key TEXT, value TEXT,type TEXT)
-''')
-db.commit()
-
+db.close()
