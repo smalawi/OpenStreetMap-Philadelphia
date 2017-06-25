@@ -186,11 +186,7 @@ NODE_FIELDS = ['id', 'lat', 'lon', 'user', 'uid', 'version', 'changeset', 'times
 NODE_TAGS_FIELDS = ['id', 'key', 'value', 'type']
 WAY_FIELDS = ['id', 'user', 'uid', 'version', 'changeset', 'timestamp']
 WAY_TAGS_FIELDS = ['id', 'key', 'value', 'type']
-WAY_NODES_FIELDS = ['id', 'node_id', 'position']
-TYPES = defaultdict(int)
-KEYS = defaultdict(int)
-VALUES = defaultdict(int)
-TYPES_KEYS = defaultdict(int)
+WAY_NODES_FIELDS = ['id', 'node_id', 'position']\
 
 def process_key(key):
     m = LOWER_COLON.search(key)
@@ -208,13 +204,8 @@ def secondary_tags(element, top_id, problem_chars):
                 continue
             new_tag = {}
             new_tag["id"] = top_id
-            new_tag["key"], new_tag["type"]  = process_key(secondary_tag.attrib["k"])
-            #KEYS[new_tag["key"]] += 1
-            #TYPES[new_tag["type"]] += 1
-            #TYPES_KEYS[(new_tag["type"], new_tag["key"])] += 1
+            new_tag["key"], new_tag["type"]  = process_key(secondary_tag.attrib["k"])\
             new_tag["value"] = secondary_tag.attrib["v"]
-            #if new_tag["type"] == "regular" and new_tag["key"] == "cuisine":
-            #    VALUES[new_tag["value"]] += 1
             if new_tag["key"] in ["postcode", "zip_left", "zip_right"]:
                 new_tag["value"] = cleaning.update_postcode(new_tag["value"])
             elif new_tag["key"] == "phone":
@@ -335,21 +326,6 @@ def process_map(file_in, validate):
                     ways_writer.writerow(el['way'])
                     way_nodes_writer.writerows(el['way_nodes'])
                     way_tags_writer.writerows(el['way_tags'])
-        '''sorted_types = sorted(TYPES.items(), key=operator.itemgetter(1), reverse=True)
-        sorted_keys = sorted(KEYS.items(), key=operator.itemgetter(1), reverse=True)
-        print "------------TYPES------------"
-        for item in sorted_types:
-            print item
-        print "------------KEYS------------"
-        for item in sorted_keys:
-            print item'''
-        '''sorted_types_keys = sorted(TYPES_KEYS.items(), key=operator.itemgetter(1), reverse=True)
-        with open('common-keys.txt', 'w') as f:
-            for item in sorted_types_keys:
-                f.write(str(item) + '\n')'''
-        #sorted_values = sorted(VALUES.items(), key=operator.itemgetter(1), reverse=True)
-        #for item in sorted_values:
-        #    print item
 
 if __name__ == '__main__':
     # Note: Validation is ~ 10X slower. For the project consider using a small

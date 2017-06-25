@@ -12,6 +12,7 @@ def update_phone(phone_num):
             return "(215) 626-7668"
         elif phone_num == "215-22x-2728":
             return "(215) 22x-2728"
+        # Invalid phone number reported
         else:
             return False
     if len(stripped) == 11:
@@ -23,15 +24,17 @@ def update_phone(phone_num):
 
 def update_postcode(postal_code):
     possible_codes = []
+    # Immediately return suitable codes
     if len(postal_code) == 5 and len(re.sub('[^0-9]','', postal_code)) == 5:
         return postal_code
     stripped = re.split('[^0-9]', postal_code)
     for segment in stripped:
-        if len(segment) == 5:
+        if len(segment) == 5: # 5-digit code
             possible_codes.append(segment)
+    # No 5-digit codes present
     if len(possible_codes) == 0:
-        #print "NO POSSIBLE CODES (", postal_code, ")"
         return False
+    # Multiple 5-digit codes present
     elif len(possible_codes) > 1:
         return_code = ""
         for code in possible_codes:
