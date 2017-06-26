@@ -12,6 +12,8 @@
 * **sample2.osm**: sample of Philadelphia OSM data, generated using sampler.py
 * **resources.md**: list of outside resources consulted during the completion of this project
 
+* **osm-wrangling.pdf/md**: final report in pdf and markdown formats. [View as gist here](https://gist.github.com/smalawi/a48b161b67751b83afb7693a94166398)
+
 ## Usage
 
 Generate .csv files:
